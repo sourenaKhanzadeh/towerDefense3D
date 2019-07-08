@@ -9,8 +9,10 @@ public class PathFinder : MonoBehaviour
     private Dictionary<Vector2Int, Waypoint> grid = new Dictionary<Vector2Int, Waypoint>();
 
     Vector2Int[] directions = {
-        new Vector2Int(0, 1),
-        new Vector2Int(1, 1)
+        Vector2Int.up,
+        Vector2Int.right,
+        Vector2Int.down,
+        Vector2Int.left
     };
 
     // Start is called before the first frame update
@@ -37,11 +39,21 @@ public class PathFinder : MonoBehaviour
 
     private void ColorStartEnd() {
         startWaypoint.SetTopColor(Color.green);
-        
+        endWaypoint.SetTopColor(Color.yellow);
     }
 
     private void ExploreNeighbours() {
-
+        foreach (Vector2Int direction in directions)
+        {
+            Vector2Int exploreCoord = startWaypoint.GetGridPos() + direction;
+            try
+            {
+                grid[exploreCoord].SetTopColor(Color.blue);
+            }
+            catch {
+                // do nothing
+            }
+        }
     }
 
     // Update is called once per frame

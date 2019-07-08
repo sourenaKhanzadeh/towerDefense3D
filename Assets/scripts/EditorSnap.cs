@@ -10,19 +10,24 @@ public class EditorSnap : MonoBehaviour
     private Waypoint waypoint;
     private Vector3 snapPos;
 
+    private void Awake()
+    {
+        waypoint = GetComponent<Waypoint>();
+        snapPos = new Vector3(1f, 0, 1f);
+    }
     // Update is called once per frame
     void Update()
     {
         SnapToGrid();
         UpdateLabel();
         UpdateScale();
-
     }
 
     private void SnapToGrid() {
-        int gridSize = waypoint.GetGridSize();
-        snapPos = new Vector3(waypoint.GetGridPos().x,
-            0,waypoint.GetGridPos().y);
+        // int gridSize = waypoint.GetGridSize();
+        snapPos = new Vector3(
+            Mathf.RoundToInt(transform.position.x / gridSize) * gridSize,
+          0, Mathf.RoundToInt(transform.position.z / gridSize) * gridSize);
 
         transform.position = snapPos;
     }
