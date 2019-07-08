@@ -7,26 +7,39 @@ public class EditorSnap : MonoBehaviour
 {
     [SerializeField] float gridSize = 10f;
 
+    private Waypoint waypoint;
+    private Vector3 snapPos;
+
     // Update is called once per frame
     void Update()
     {
-        Vector3 snapPos = new Vector3(0,0,0);
-        Vector3 scale = new Vector3(1f, 1f, 1f) * gridSize;
+        SnapToGrid();
+        UpdateLabel();
+        UpdateScale();
 
+    }
 
-        transform.localScale = scale;
+    private void SnapToGrid() {
+        int gridSize = waypoint.GetGridSize();
+        snapPos = new Vector3(waypoint.GetGridPos().x,
+            0,waypoint.GetGridPos().y);
 
-        snapPos.x = Mathf.RoundToInt(transform.position.x / 
-            gridSize) * gridSize;
+        transform.position = snapPos;
+    }
 
-        snapPos.z = Mathf.RoundToInt(transform.position.z/gridSize)*gridSize;
-
+    private void UpdateLabel() {
         string coord_text = snapPos.z / gridSize + "," + snapPos.x / gridSize;
 
         TextMesh coordinate = GetComponentInChildren<TextMesh>();
         coordinate.text = coord_text;
         gameObject.name = coord_text;
 
-        transform.position = snapPos;
+    }
+
+    private void UpdateScale() {
+        Vector3 scale = new Vector3(1f, 1f, 1f) * gridSize;
+        transform.localScale = scale;    
+
     }
 }
+

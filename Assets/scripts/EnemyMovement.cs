@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class EnemyMovement : MonoBehaviour
 {
-    [SerializeField] List<Block> path;
+    [SerializeField] List<Waypoint> path;
     [SerializeField] float delay = 1f;
 
 
@@ -18,7 +18,7 @@ public class EnemyMovement : MonoBehaviour
     }
 
     IEnumerator PrintAllWaypoints() {
-        foreach (Block waypoint in path)
+        foreach (Waypoint waypoint in path)
         {
             transform.position = waypoint.transform.position + offset;
             yield return new WaitForSeconds(delay);
